@@ -2,6 +2,7 @@ package serviceLibrary.services;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,13 +16,13 @@ import serviceLibrary.dtos.UserDto;
 public interface UserService {
 
     @GetMapping("/users")
-    List<UserDto> getAllUsers();
+    ResponseEntity<?> getAllUsers();
 
     @GetMapping("/user/{id}")
-    UserDto getUserById(@PathVariable Long id);
+    ResponseEntity<?> getUserById(@PathVariable Long id);
 
     @GetMapping("/user/email")
-    UserDto getUserByEmail(@RequestParam String email);
+    ResponseEntity<?> getUserByEmail(@RequestParam String email);
 
     @PostMapping("/user/newUser")
     UserDto createUser(@RequestBody UserDto userDto);
