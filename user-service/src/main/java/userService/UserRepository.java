@@ -17,7 +17,7 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
 
     void deleteByEmail(String email);
     
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
     @Query("update UserModel u set u.firstName=?2, u.lastName=?3, u.password=?4, u.role=?5 where u.email=?1")
     void updateUser(String email, String firstName, String lastName, String password, String role);

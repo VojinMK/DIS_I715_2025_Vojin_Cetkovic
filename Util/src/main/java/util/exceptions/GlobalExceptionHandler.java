@@ -48,4 +48,10 @@ public class GlobalExceptionHandler {
                         HttpStatus.INTERNAL_SERVER_ERROR
                 ));
     }
+    
+    @ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<?> handleInvalidInput(DataIntegrityViolationException ex) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ExceptionModel(ex.getMessage(),
+				"Please enter valid input.", HttpStatus.BAD_REQUEST));
+	}
 }

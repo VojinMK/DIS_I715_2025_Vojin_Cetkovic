@@ -37,6 +37,8 @@ public class ApiGatewayAuthentication {
 
                         // gateway koristi ovaj endpoint da učita korisnika tokom login-a
                         .pathMatchers(HttpMethod.GET, "/user/email").permitAll()
+                        
+                        .pathMatchers(HttpMethod.GET, "/user/id").permitAll()
 
                         // samo ADMIN pravi nove korisnike
                         .pathMatchers(HttpMethod.POST, "/user/newUser").hasRole("ADMIN")
@@ -49,6 +51,16 @@ public class ApiGatewayAuthentication {
 
                         // za sada update samo ADMIN
                         .pathMatchers(HttpMethod.PUT, "/users").hasRole("ADMIN")
+                        
+                        //product service
+                        .pathMatchers(HttpMethod.GET, "/products/**").hasAnyRole("ADMIN", "USER")
+                        .pathMatchers(HttpMethod.POST, "/products/**").hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.PUT, "/products/**").hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN")
+                        
+                        //stock service
+                        .pathMatchers("/stock/**").hasRole("ADMIN")
+                        .pathMatchers("/stocks").hasRole("ADMIN")
 
                         .anyExchange().authenticated()
                 )
