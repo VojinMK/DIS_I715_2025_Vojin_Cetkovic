@@ -61,6 +61,13 @@ public class ApiGatewayAuthentication {
                         //stock service
                         .pathMatchers("/stock/**").hasRole("ADMIN")
                         .pathMatchers("/stocks").hasRole("ADMIN")
+                        
+                        //order service
+                        .pathMatchers(HttpMethod.POST, "/order").hasAnyRole("ADMIN", "USER")
+                        .pathMatchers(HttpMethod.GET, "/orders").hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.GET, "/order/**").hasAnyRole("ADMIN", "USER")
+                        .pathMatchers(HttpMethod.PUT, "/order").hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.DELETE, "/order").hasRole("ADMIN")
 
                         .anyExchange().authenticated()
                 )
@@ -76,7 +83,9 @@ public class ApiGatewayAuthentication {
         ServerWebExchangeMatcher matcher = ServerWebExchangeMatchers.matchers(
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, "/user/newUser"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.PUT, "/users"),
-                ServerWebExchangeMatchers.pathMatchers(HttpMethod.DELETE, "/user/**")
+                ServerWebExchangeMatchers.pathMatchers(HttpMethod.DELETE, "/user/**"),
+                ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, "/order"),
+                ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET, "/order/email")
         );
 
         return (ServerWebExchange exchange, WebFilterChain chain) ->

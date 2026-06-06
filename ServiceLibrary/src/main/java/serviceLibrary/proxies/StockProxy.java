@@ -9,15 +9,16 @@ import serviceLibrary.dtos.StockDto;
 @FeignClient("stock-service")
 public interface StockProxy {
 
-    @PostMapping("/stock")
-    ResponseEntity<?> initializeStock(@RequestBody StockDto dto);
+	@PostMapping("/stock")
+	ResponseEntity<?> initializeStock(@RequestBody StockDto dto);
 
-    @DeleteMapping("/stock")
-    ResponseEntity<String> deleteStockByProductCode(@RequestParam String productCode);
+	@DeleteMapping("/stock")
+	ResponseEntity<String> deleteStockByProductCode(@RequestParam String productCode);
 
-    @GetMapping("/stock")
-    StockDto getStockByProductCode(@RequestParam String productCode);
+	@GetMapping("/stock")
+	StockDto getStockByProductCode(@RequestParam String productCode);
 
-    @PutMapping("/stock")
-    ResponseEntity<?> updateStock(@RequestBody StockDto dto);
+	@PutMapping("/stock")
+	ResponseEntity<?> updateStock(@RequestBody StockDto dto,
+			@RequestParam(defaultValue = "false") boolean fromOrder);
 }

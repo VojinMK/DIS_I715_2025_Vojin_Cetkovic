@@ -38,6 +38,10 @@ public class RoutingConfiguration {
 				.route(p -> p.path("/stocks").uri("lb://stock-service"))
 				
 				.route(p -> p.path("/stock/**").uri("lb://stock-service"))
+				
+				.route(p -> p.path("/orders").uri("lb://order-service"))
+				
+				.route(p -> p.path("/order/**").uri("lb://order-service"))
 
 				.build();
 	}
