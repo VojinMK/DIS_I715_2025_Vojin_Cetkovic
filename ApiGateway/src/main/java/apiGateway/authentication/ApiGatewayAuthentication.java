@@ -38,7 +38,7 @@ public class ApiGatewayAuthentication {
                         // gateway koristi ovaj endpoint da učita korisnika tokom login-a
                         .pathMatchers(HttpMethod.GET, "/user/email").permitAll()
                         
-                        .pathMatchers(HttpMethod.GET, "/user/id").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/user/id").hasRole("ADMIN")
 
                         // samo ADMIN pravi nove korisnike
                         .pathMatchers(HttpMethod.POST, "/user/newUser").hasRole("ADMIN")
@@ -47,16 +47,17 @@ public class ApiGatewayAuthentication {
                         .pathMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
 
                         // samo ADMIN briše korisnike
-                        .pathMatchers(HttpMethod.DELETE, "/user/**").hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.DELETE, "/user").hasRole("ADMIN")
 
                         // za sada update samo ADMIN
-                        .pathMatchers(HttpMethod.PUT, "/users").hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.PUT, "/user").hasRole("ADMIN")
                         
                         //product service
-                        .pathMatchers(HttpMethod.GET, "/products/**").hasAnyRole("ADMIN", "USER")
-                        .pathMatchers(HttpMethod.POST, "/products/**").hasRole("ADMIN")
-                        .pathMatchers(HttpMethod.PUT, "/products/**").hasRole("ADMIN")
-                        .pathMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.GET, "/products").hasAnyRole("ADMIN", "USER")
+                        .pathMatchers(HttpMethod.GET, "/product/**").hasAnyRole("ADMIN", "USER")
+                        .pathMatchers(HttpMethod.POST, "/product").hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.PUT, "/product").hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.DELETE, "/product").hasRole("ADMIN")
                         
                         //stock service
                         .pathMatchers("/stock/**").hasRole("ADMIN")
@@ -82,8 +83,8 @@ public class ApiGatewayAuthentication {
     public WebFilter userHeadersFilter() {
         ServerWebExchangeMatcher matcher = ServerWebExchangeMatchers.matchers(
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, "/user/newUser"),
-                ServerWebExchangeMatchers.pathMatchers(HttpMethod.PUT, "/users"),
-                ServerWebExchangeMatchers.pathMatchers(HttpMethod.DELETE, "/user/**"),
+                ServerWebExchangeMatchers.pathMatchers(HttpMethod.PUT, "/user"),
+                ServerWebExchangeMatchers.pathMatchers(HttpMethod.DELETE, "/user"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, "/order"),
                 ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET, "/order/email")
         );

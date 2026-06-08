@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
 
 		String password = userDto.getPassword() != null ? userDto.getPassword() : existingUser.getPassword();
 
-		String newRole = userDto.getRole() != null ? userDto.getRole() : existingUser.getRole();
+		String newRole = userDto.getRole() != null ? userDto.getRole().toUpperCase() : existingUser.getRole();
 		
 		userRepository.updateUser(userDto.getEmail(), firstName, lastName, password, newRole);
 
