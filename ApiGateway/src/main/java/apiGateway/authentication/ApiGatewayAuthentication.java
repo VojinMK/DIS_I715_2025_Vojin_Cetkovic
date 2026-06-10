@@ -33,7 +33,7 @@ public class ApiGatewayAuthentication {
                 .authorizeExchange(exchange -> exchange
 
                         // prvi admin mora da se napravi bez login-a
-                        .pathMatchers(HttpMethod.POST, "/user/newAdmin").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/user/newAdmin").hasRole("ADMIN")
 
                         // gateway koristi ovaj endpoint da učita korisnika tokom login-a
                         .pathMatchers(HttpMethod.GET, "/user/email").permitAll()
