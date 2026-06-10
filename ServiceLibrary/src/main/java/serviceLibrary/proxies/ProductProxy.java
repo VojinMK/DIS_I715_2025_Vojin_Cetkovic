@@ -11,6 +11,6 @@ import serviceLibrary.dtos.ProductDto;
 public interface ProductProxy {
 
 	@GetMapping("/product/code")
-	ResponseEntity<ProductDto> getProductByCode(@RequestParam String productCode);
+	ResponseEntity<ProductDto> getProductByCode(@RequestParam(value = "productCode") String productCode);
 } 
 

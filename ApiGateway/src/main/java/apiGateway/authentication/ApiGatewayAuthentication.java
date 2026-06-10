@@ -122,7 +122,8 @@ public class ApiGatewayAuthentication {
 
     @Bean
     ReactiveUserDetailsService reactiveUserDetailsService() {
-        WebClient client = WebClient.create("http://localhost:8770");
+        //WebClient client = WebClient.create("http://localhost:8770");
+    	WebClient client = WebClient.create("http://user-service:8770"); // docker
 
         return username -> client.get()
                 .uri(uriBuilder -> uriBuilder

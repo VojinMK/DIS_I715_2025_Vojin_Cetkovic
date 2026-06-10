@@ -12,8 +12,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 public interface UserProxy {
 
 	@GetMapping("/user/id")
-	ResponseEntity<?> getUserById(@RequestParam Long id);
+	ResponseEntity<?> getUserById(@RequestParam(value = "id") Long id);
 
 	@GetMapping("/user/email")
-	ResponseEntity<UserDto> getUserByEmail(@RequestParam String email);
+	ResponseEntity<UserDto> getUserByEmail(@RequestParam(value = "email") String email);
 }

@@ -13,12 +13,12 @@ public interface StockProxy {
 	ResponseEntity<?> initializeStock(@RequestBody StockDto dto);
 
 	@DeleteMapping("/stock")
-	ResponseEntity<String> deleteStockByProductCode(@RequestParam String productCode);
+	ResponseEntity<String> deleteStockByProductCode(@RequestParam(value = "productCode") String productCode);
 
 	@GetMapping("/stock")
-	StockDto getStockByProductCode(@RequestParam String productCode);
+	StockDto getStockByProductCode(@RequestParam(value = "productCode") String productCode);
 
 	@PutMapping("/stock")
 	ResponseEntity<?> updateStock(@RequestBody StockDto dto,
-			@RequestParam(defaultValue = "false") boolean fromOrder);
+			@RequestParam(value = "fromOrder", defaultValue = "false") boolean fromOrder);
 }
