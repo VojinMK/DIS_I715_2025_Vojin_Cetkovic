@@ -1,100 +1,98 @@
 name: SportifyShop CI/CD
 
 on:
-push:
-branches:
-- main
-- develop
-pull_request:
-branches:
-- main
-- develop
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
 
 jobs:
-build-test-and-docker:
-runs-on: ubuntu-latest
+  build-test-and-docker:
+    runs-on: ubuntu-latest
 
-```
-steps:
-  - name: Checkout source code
-    uses: actions/checkout@v4
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
 
-  - name: Set up JDK 17
-    uses: actions/setup-java@v4
-    with:
-      java-version: '17'
-      distribution: 'temurin'
-      cache: maven
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
 
-  - name: Install shared libraries
-    run: |
-      cd Util
-      mvn clean install -DskipTests
+      - name: Install shared libraries
+        run: |
+          cd Util
+          mvn clean install -DskipTests
 
-      cd ../ServiceLibrary
-      mvn clean install -DskipTests
+          cd ../ServiceLibrary
+          mvn clean install -DskipTests
 
-  - name: Test user-service
-    run: |
-      cd user-service
-      mvn clean test
+      - name: Test user-service
+        run: |
+          cd user-service
+          mvn clean test
 
-  - name: Test ProductService
-    run: |
-      cd ProductService
-      mvn clean test
+      - name: Test ProductService
+        run: |
+          cd ProductService
+          mvn clean test
 
-  - name: Test StockService
-    run: |
-      cd StockService
-      mvn clean test
+      - name: Test StockService
+        run: |
+          cd StockService
+          mvn clean test
 
-  - name: Test OrderService
-    run: |
-      cd OrderService
-      mvn clean test
+      - name: Test OrderService
+        run: |
+          cd OrderService
+          mvn clean test
 
-  - name: Test EmailService
-    run: |
-      cd EmailService
-      mvn clean test
+      - name: Test EmailService
+        run: |
+          cd EmailService
+          mvn clean test
 
-  - name: Package infrastructure services
-    run: |
-      cd NamingServer
-      mvn clean package -DskipTests
+      - name: Package infrastructure services
+        run: |
+          cd NamingServer
+          mvn clean package -DskipTests
 
-      cd ../config-server
-      mvn clean package -DskipTests
+          cd ../config-server
+          mvn clean package -DskipTests
 
-      cd ../ApiGateway
-      mvn clean package -DskipTests
+          cd ../ApiGateway
+          mvn clean package -DskipTests
 
-  - name: Package business services
-    run: |
-      cd user-service
-      mvn clean package -DskipTests
+      - name: Package business services
+        run: |
+          cd user-service
+          mvn clean package -DskipTests
 
-      cd ../ProductService
-      mvn clean package -DskipTests
+          cd ../ProductService
+          mvn clean package -DskipTests
 
-      cd ../StockService
-      mvn clean package -DskipTests
+          cd ../StockService
+          mvn clean package -DskipTests
 
-      cd ../OrderService
-      mvn clean package -DskipTests
+          cd ../OrderService
+          mvn clean package -DskipTests
 
-      cd ../EmailService
-      mvn clean package -DskipTests
+          cd ../EmailService
+          mvn clean package -DskipTests
 
-  - name: Build Docker images
-    run: |
-      docker build -t naming-server:ci ./NamingServer
-      docker build -t config-server:ci ./config-server
-      docker build -t api-gateway:ci ./ApiGateway
-      docker build -t user-service:ci ./user-service
-      docker build -t product-service:ci ./ProductService
-      docker build -t stock-service:ci ./StockService
-      docker build -t order-service:ci ./OrderService
-      docker build -t email-service:ci ./EmailService
-```
+      - name: Build Docker images
+        run: |
+          docker build -t naming-server:ci ./NamingServer
+          docker build -t config-server:ci ./config-server
+          docker build -t api-gateway:ci ./ApiGateway
+          docker build -t user-service:ci ./user-service
+          docker build -t product-service:ci ./ProductService
+          docker build -t stock-service:ci ./StockService
+          docker build -t order-service:ci ./OrderService
+          docker build -t email-service:ci ./EmailService
